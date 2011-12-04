@@ -11,7 +11,8 @@ import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.data.xy.DefaultXYDataset;
 
 public class CustomGraph {
-	public static void createFrame(double[] sequence, double r) {
+	public static void createFrame(double x0, double r) {
+		double[] sequence = Searcher.getSequence(x0, r);
 		String title = "График сходимости f(x) при r = " + r
 				+ " и начальном приближении x = " + sequence[0];
 		String xLabel = "номер итерации";
@@ -31,7 +32,7 @@ public class CustomGraph {
 		JFrame frame = new JFrame();
 		frame.add(new ChartPanel(chart));
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frame.pack();
 		frame.setVisible(true);
 	}
 }
