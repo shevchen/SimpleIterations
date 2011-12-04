@@ -12,10 +12,8 @@ public final class MultiGraph {
 	
 	private static final class Pixmap extends Panel {
 		private final BufferedImage image;		
-		private static final double PRECISION = 1e-12;
-		private static final int MAX_ITERATION = 100;
 		
-		private static int getIteration(double x0, double r) {
+		private static double getIteration(double x0, double r) {
 			double curX;
 			double nextX = x0;
 			int step = 0;
@@ -23,17 +21,18 @@ public final class MultiGraph {
 				step++;
 				curX = nextX;
 				nextX = r * curX * (1 - curX);
-			} while ((Math.abs(nextX - curX) > 0.0) && (step < MAX_ITERATION));
-			return step;
+			} while ((Math.abs(nextX - curX) > 1e-6) && 
+					(nextX != Double.POSITIVE_INFINITY) && (nextX != Double.NEGATIVE_INFINITY));
+			return nextX;
 		}
 
-		private static Color getColor(double percent) {
-			if (percent > 0.35) return Color.red;
-			if (percent > 0.3) return Color.orange;
-			if (percent > 0.25) return Color.yellow;
-			if (percent > 0.2) return Color.blue;
-			return Color.green;
+		private static Color getColor(double X, double r) {
+			if (X == Double.POSITIVE_INFINITY) return Color.red;
+			if (X == Double.NEGATIVE_INFINITY) return Color.yellow;
+			if (Math.abs(X - r * X * (1 - X)) < 1e-6) return Color.GREEN;
+			return Color.BLACK;
 		}
+		
 		public Pixmap(double x1, double x2, double r1, double r2) {
 			image = new BufferedImage(800, 600, BufferedImage.TYPE_INT_RGB);
 			double dx = (x2 - x1) / 800;
@@ -43,18 +42,7 @@ public final class MultiGraph {
 			for (int x = 0; x < 800; x++) {
 				double x0 = x1;
 				for (int y = 0; y < 600; y++) {
-					int step = getIteration(x0, r);
-					maxStep = (step > maxStep) ? step : maxStep;
-					x0 += dx;
-				}
-				r2 -= dy;
-			}
-			System.out.println(maxStep);
-			for (int x = 0; x < 800; x++) {
-				double x0 = x1;
-				for (int y = 0; y < 600; y++) {
-					int step = getIteration(x0, r);
-					image.setRGB(x, y, getColor(1. * step / maxStep).getRGB());
+					image.setRGB(x, y, getColor(getIteration(x0, r), r).getRGB());
 					x0 += dx;
 				}
 				r2 -= dy;
@@ -69,9 +57,10 @@ public final class MultiGraph {
 	
 	public static void main(String[] args) {
 		JFrame frame = new JFrame("Results");
-		frame.getContentPane().add(new Pixmap(-2, 2, -1, 1));
+		frame.getContentPane().add(new Pixmap(-1, 2, -5, 5));
 		frame.setSize(816, 638);
 		frame.setBounds(250, 50, 816, 638);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setVisible(true);
 	}
 }
