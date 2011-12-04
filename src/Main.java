@@ -6,6 +6,6 @@ public class Main {
 		for (int i = 0; i < 100; ++i) {
 			test[i] = 1. * i * i;
 		}
-		Vis.createFrame(test, 1.5);
+		CustomGraph.createFrame(test, 1.5);
 	}
 }

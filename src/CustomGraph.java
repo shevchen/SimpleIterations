@@ -10,10 +10,11 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.data.xy.DefaultXYDataset;
 
-public class Vis {
+public class CustomGraph {
 	public static void createFrame(double[] sequence, double r) {
-		String title = "Simple iterations";
-		String xLabel = "iteration";
+		String title = "График сходимости f(x) при r = " + r
+				+ " и начальном приближении x = " + sequence[0];
+		String xLabel = "номер итерации";
 		String yLabel = "f(x)";
 		DefaultXYDataset data = new DefaultXYDataset();
 		double[] absc = new double[sequence.length];
@@ -30,7 +31,7 @@ public class Vis {
 		JFrame frame = new JFrame();
 		frame.add(new ChartPanel(chart));
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.pack();
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.setVisible(true);
 	}
 }
