@@ -26,7 +26,7 @@ public class CustomGraph {
 		double[] seq = new double[ITERATIONS + 1];
 		seq[0] = x0;
 		for (int i = 0; i < ITERATIONS; ++i) {
-			seq[i + 1] = r * seq[i] * (1 - seq[i]);
+			seq[i + 1] = getFi(r, seq[i]);
 		}
 		return seq;
 	}
@@ -34,8 +34,8 @@ public class CustomGraph {
 	public static void createFrame(double x0, double r) {
 		YMAX = Math.max(0.3 * r, 1.5);
 		double[] sequence = getSequence(x0, r);
-		String title = "Сходимость f(x) при r = " + r
-				+ " и начальном приближении x = " + sequence[0];
+		String title = "Сходимость f(x) при r=" + r
+				+ " и начальном приближении x=" + sequence[0];
 		String xLabel = "x";
 		String yLabel = "y";
 		DefaultXYDataset data = new DefaultXYDataset();
@@ -49,8 +49,8 @@ public class CustomGraph {
 			ys[i] = YMIN + (YMAX - YMIN) * i / (PRECISION - 1);
 			zero[i] = 0.;
 		}
-		data.addSeries("y(x) = rx(1-x)", new double[][] { xs, fi });
-		data.addSeries("y(x) = x", new double[][] { xs, xs });
+		data.addSeries("y(x)=rx(1-x)", new double[][] { xs, fi });
+		data.addSeries("y(x)=x", new double[][] { xs, xs });
 		data.addSeries("domain axis", new double[][] { xs, zero });
 		data.addSeries("value axis", new double[][] { zero, ys });
 		double[] spiralx = { x0, x0 };
@@ -101,6 +101,6 @@ public class CustomGraph {
 	}
 
 	public static void main(String[] args) {
-		createFrame(0.2, 1.5);
+		createFrame(0.2, 0.5); // x0, r
 	}
 }
