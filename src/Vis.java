@@ -24,9 +24,9 @@ public class Vis {
 		JFreeChart chart = ChartFactory.createXYLineChart(title, xLabel,
 				yLabel, data, PlotOrientation.VERTICAL, true, false, false);
 		XYItemRenderer ren = chart.getXYPlot().getRenderer();
-		ren.setSeriesStroke(0, new BasicStroke(2.f, BasicStroke.CAP_ROUND,
+		ren.setSeriesStroke(0, new BasicStroke(1.5f, BasicStroke.CAP_ROUND,
 				BasicStroke.JOIN_ROUND));
-		ren.setSeriesPaint(0, Color.BLACK);
+		ren.setSeriesPaint(0, Color.RED);
 		JFrame frame = new JFrame();
 		frame.add(new ChartPanel(chart));
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
