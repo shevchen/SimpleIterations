@@ -12,11 +12,11 @@ import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.data.xy.DefaultXYDataset;
 
 public class CustomGraph {
-	private static final double XMIN = -0.1, XMAX = 1.1, YMIN = -1.;
+	private static final double XMIN = -0.5, XMAX = 1.1, YMIN = -1.;
 	private static double YMAX;
 	private static final int PRECISION = 3000;
-	private static final int ITERATIONS = 100;
-	private static long PAUSE = 2000;
+	private static final int ITERATIONS = 10000;
+	private static long PAUSE = 1500;
 
 	private static double getFi(double r, double x) {
 		return r * x * (1 - x);
@@ -101,6 +101,6 @@ public class CustomGraph {
 	}
 
 	public static void main(String[] args) {
-		createFrame(0.2, 0.5); // x0, r
+		createFrame(0.2, 2.); // x0, r
 	}
 }
