@@ -30,19 +30,23 @@ public final class MultiGraph {
 
 		private static Color getColor(double X, double r) {
 			if (X == Double.POSITIVE_INFINITY)
-				return Color.red;
+				return Color.WHITE;
 			if (X == Double.NEGATIVE_INFINITY)
-				return Color.yellow;
-			if (Math.abs(X - r * X * (1 - X)) < 1e-6)
+				return Color.BLACK;
+			if (Math.abs(X - r * X * (1 - X)) < 1e-6) {
+				if (Math.abs(X) < 1e-6) {
+					return Color.YELLOW;
+				}
 				return Color.GREEN;
-			return Color.BLACK;
+			}
+			return Color.GRAY;
 		}
 
 		public Pixmap(double x1, double x2, double r1, double r2) {
 			image = new BufferedImage(800, 600, BufferedImage.TYPE_INT_RGB);
-			double dx = (x2 - x1) / 800;
-			double dy = (r2 - r1) / 600;
-			double r = r2;
+			double dr = (r2 - r1) / 800;
+			double dx = (x2 - x1) / 600;
+			double r = r1;
 			for (int x = 0; x < 800; x++) {
 				double x0 = x1;
 				for (int y = 0; y < 600; y++) {
@@ -50,7 +54,7 @@ public final class MultiGraph {
 							.getRGB());
 					x0 += dx;
 				}
-				r -= dy;
+				r += dr;
 			}
 		}
 
@@ -61,8 +65,8 @@ public final class MultiGraph {
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame("Results");
-		frame.getContentPane().add(new Pixmap(-1, 2, -5.01, 5.02));
-		frame.setSize(800, 600);
+		frame.getContentPane().add(new Pixmap(-3, 3, -5, 5));
+		frame.setSize(800, 630);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setVisible(true);
 	}

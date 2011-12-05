@@ -101,6 +101,6 @@ public class CustomGraph {
 	}
 
 	public static void main(String[] args) {
-		createFrame(0.2, 2.); // x0, r
+		createFrame(0.2, -1.000001); // x0, r
 	}
 }
