@@ -14,15 +14,15 @@ import org.jfree.data.xy.DefaultXYDataset;
 public class CustomGraph {
 	private static final double XMIN = -0.5, XMAX = 1.1, YMIN = -1.;
 	private static double YMAX;
-	private static final int PRECISION = 3000;
+	private static final int PRECISION = 500;
 	private static final int ITERATIONS = 10000;
-	private static long PAUSE = 1500;
+	private static long PAUSE = 1000;
 
 	private static double getFi(double r, double x) {
 		return r * x * (1 - x);
 	}
 
-	private static double[] getSequence(double x0, double r) {
+	private static double[] getSequence(double r, double x0) {
 		double[] seq = new double[ITERATIONS + 1];
 		seq[0] = x0;
 		for (int i = 0; i < ITERATIONS; ++i) {
@@ -31,9 +31,9 @@ public class CustomGraph {
 		return seq;
 	}
 
-	public static void createFrame(double x0, double r) {
+	public static void createFrame(double r, double x0) {
 		YMAX = Math.max(0.3 * r, 1.5);
-		double[] sequence = getSequence(x0, r);
+		double[] sequence = getSequence(r, x0);
 		String title = "Сходимость f(x) при r=" + r
 				+ " и начальном приближении x=" + sequence[0];
 		String xLabel = "x";
@@ -75,9 +75,14 @@ public class CustomGraph {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		frame.setVisible(true);
-		double[] seq = getSequence(x0, r);
+		double[] seq = getSequence(r, x0);
 		System.out.println(Arrays.toString(seq));
+		try {
+			Thread.sleep(PAUSE);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		frame.setVisible(true);
 		for (int i = 0; i < ITERATIONS; ++i) {
 			spiralx[0] = spiralx[1];
 			spiraly[0] = spiraly[1];
@@ -101,6 +106,6 @@ public class CustomGraph {
 	}
 
 	public static void main(String[] args) {
-		createFrame(0.2, -1.000001); // x0, r
+		createFrame(2.1, 0.2); // r, x0
 	}
 }

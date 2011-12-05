@@ -34,7 +34,7 @@ public final class MultiGraph {
 			if (X == Double.NEGATIVE_INFINITY)
 				return Color.BLACK;
 			if (Math.abs(X - r * X * (1 - X)) < 1e-6) {
-				if (Math.abs(X) < 1e-6) {
+				if (Math.abs(X) < 1e-2) {
 					return Color.YELLOW;
 				}
 				return Color.GREEN;
