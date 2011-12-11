@@ -16,7 +16,7 @@ public class CustomGraph {
 	private static double YMAX;
 	private static final int PRECISION = 500;
 	private static final int ITERATIONS = 10000;
-	private static long PAUSE = 1000;
+	private static long PAUSE = 2000;
 
 	private static double getFi(double r, double x) {
 		return r * x * (1 - x);
@@ -106,6 +106,6 @@ public class CustomGraph {
 	}
 
 	public static void main(String[] args) {
-		createFrame(2.1, 0.2); // r, x0
+		createFrame(1.5, 0.2); // r, x0
 	}
 }

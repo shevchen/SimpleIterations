@@ -9,11 +9,13 @@ public final class MultiGraph {
 
 	private static final class Pixmap extends Panel {
 		private final BufferedImage image;
+		private static boolean oscill;
 
 		private static double getIteration(double x0, double r) {
-			double curX;
+			double curX = x0;
 			double nextX = x0;
 			int step = 0;
+			double xfirst = x0, xsecond = x0;
 			final int MAXSTEPS = 10000;
 			do {
 				step++;
@@ -22,9 +24,18 @@ public final class MultiGraph {
 				}
 				curX = nextX;
 				nextX = r * curX * (1 - curX);
+				if (Math.abs(nextX - curX) > 1e-6) {
+					xfirst = xsecond;
+					xsecond = nextX;
+				}
 			} while ((Math.abs(nextX - curX) > 1e-6)
 					&& (nextX != Double.POSITIVE_INFINITY)
 					&& (nextX != Double.NEGATIVE_INFINITY));
+			if (Math.abs(nextX - curX) <= 1e-6) {
+				oscill = xfirst > nextX != xsecond > nextX;
+			} else {
+				oscill = false;
+			}
 			return nextX;
 		}
 
@@ -35,9 +46,9 @@ public final class MultiGraph {
 				return Color.BLACK;
 			if (Math.abs(X - r * X * (1 - X)) < 1e-6) {
 				if (Math.abs(X) < 1e-2) {
-					return Color.YELLOW;
+					return oscill ? Color.ORANGE : Color.YELLOW;
 				}
-				return Color.GREEN;
+				return oscill ? Color.BLUE : Color.GREEN;
 			}
 			return Color.GRAY;
 		}
