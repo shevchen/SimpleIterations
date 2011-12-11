@@ -11,12 +11,14 @@ public final class MultiGraph {
 		private final BufferedImage image;
 		private static boolean oscill;
 
-		private static double getIteration(double x0, double r) {
+		private final static int MAXSTEPS = 1000;
+		private final static double EPS = 1e-6;
+
+		private static Color getIteration(double x0, double r) {
 			double curX = x0;
 			double nextX = x0;
 			int step = 0;
 			double xfirst = x0, xsecond = x0;
-			final int MAXSTEPS = 10000;
 			do {
 				step++;
 				if (step > MAXSTEPS) {
@@ -24,31 +26,33 @@ public final class MultiGraph {
 				}
 				curX = nextX;
 				nextX = r * curX * (1 - curX);
-				if (Math.abs(nextX - curX) > 1e-6) {
+				if (Math.abs(nextX - curX) > EPS) {
 					xfirst = xsecond;
 					xsecond = nextX;
 				}
-			} while ((Math.abs(nextX - curX) > 1e-6)
+			} while ((Math.abs(nextX - curX) > EPS)
 					&& (nextX != Double.POSITIVE_INFINITY)
 					&& (nextX != Double.NEGATIVE_INFINITY));
-			if (Math.abs(nextX - curX) <= 1e-6) {
+			if (Math.abs(nextX - curX) <= EPS) {
 				oscill = xfirst > nextX != xsecond > nextX;
 			} else {
 				oscill = false;
 			}
-			return nextX;
+			return getColor(nextX, r, step);
 		}
 
-		private static Color getColor(double X, double r) {
+		private static Color getColor(double X, double r, int steps) {
 			if (X == Double.POSITIVE_INFINITY)
 				return Color.WHITE;
 			if (X == Double.NEGATIVE_INFINITY)
 				return Color.BLACK;
-			if (Math.abs(X - r * X * (1 - X)) < 1e-6) {
+			int part = (int) ((1. - 0.8 * Math.log(steps) / Math.log(MAXSTEPS)) * 255);
+			if (Math.abs(X - r * X * (1 - X)) < EPS) {
 				if (Math.abs(X) < 1e-2) {
-					return oscill ? Color.ORANGE : Color.YELLOW;
+					return oscill ? new Color(part, part / 2, 0) : new Color(
+							part, part, 0);
 				}
-				return oscill ? Color.BLUE : Color.GREEN;
+				return oscill ? new Color(0, 0, part) : new Color(0, part, 0);
 			}
 			return Color.GRAY;
 		}
@@ -61,8 +65,7 @@ public final class MultiGraph {
 			for (int x = 0; x < 800; x++) {
 				double x0 = x1;
 				for (int y = 0; y < 600; y++) {
-					image.setRGB(x, y, getColor(getIteration(x0, r), r)
-							.getRGB());
+					image.setRGB(x, y, getIteration(x0, r).getRGB());
 					x0 += dx;
 				}
 				r += dr;
