@@ -5,7 +5,7 @@ import java.awt.image.*;
 
 import javax.swing.JFrame;
 
-public final class MultiGraph {
+public class MultiGraph {
 
 	private static final class Pixmap extends Panel {
 		private final BufferedImage image;

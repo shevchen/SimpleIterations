@@ -24,8 +24,8 @@ import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.data.xy.DefaultXYDataset;
 
 public class CustomGraph {
-	private static final double XMIN = -0.5, XMAX = 1.1, YMIN = -1.;
-	private static double YMAX;
+	private static final double XMIN = -0.5, XMAX = 1.1, YMIN = -1.,
+			YMAX = 1.5;
 	private static final int PRECISION = 500;
 	private static final int ITERATIONS = 10000;
 	private static long PAUSE = 1000;
@@ -104,7 +104,6 @@ public class CustomGraph {
 	}
 
 	public static void createFrame() {
-		YMAX = Math.max(0.3 * curr, 1.5);
 		double[] sequence = getSequence();
 		String title = "Сходимость f(x) при r=" + curr
 				+ " и начальном приближении x=" + sequence[0];
